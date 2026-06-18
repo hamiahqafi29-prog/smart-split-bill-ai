@@ -76,9 +76,14 @@ Smart Split Bill dikembangkan sebagai proof of concept untuk membantu pengguna:
 │   └── results/                   # Output benchmark tersimpan di sini
 ├── tests/
 │   └── test_splitter.py
+├── submission/
+│   ├── Smart_Split_Bill_README.pdf
+│   └── Smart_Split_Bill_Experiment.ipynb
 ├── requirements.txt
 └── .env.example
 ```
+
+File pada folder `submission/` dapat langsung diunggah ke Google Drive.
 
 ## Instalasi dan Menjalankan Aplikasi
 
