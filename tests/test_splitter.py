@@ -1,4 +1,5 @@
 from smart_split.splitter import calculate_split, distribute_evenly
+from smart_split.models import validate_receipt
 
 
 def test_even_split_preserves_remainder():
@@ -44,3 +45,15 @@ def test_negative_discount_is_allocated():
     assert result["people"]["B"]["total"] == 45_000
     assert result["is_balanced"] is True
 
+
+def test_receipt_validation_detects_inconsistent_ai_output():
+    warnings = validate_receipt(
+        {
+            "items": [{"name": "Drink", "total": 12_000}],
+            "subtotal": 6_000,
+            "charges": [],
+            "total": 10_000,
+        }
+    )
+
+    assert len(warnings) == 2

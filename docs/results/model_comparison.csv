@@ -1,1 +1,5 @@
 image,model,status,inference_seconds,merchant,item_count,subtotal,charge_count,total,error
+docs/receipts/receipt_1.jpg,Qwen/Qwen3-VL-8B-Instruct:fastest,success,12.38,TOM SUSHI,9,369000.0,2,426195.0,
+docs/receipts/receipt_1.jpg,CohereLabs/aya-vision-32b:fastest,success,17.506,TOM SUSHI,10,1845000.0,2,2121750.0,
+docs/receipts/receipt_2.jpg,Qwen/Qwen3-VL-8B-Instruct:fastest,success,10.971,SANTUY MART,7,76000.0,0,100000.0,
+docs/receipts/receipt_2.jpg,CohereLabs/aya-vision-32b:fastest,success,11.045,SANTYU MART,6,76000.0,0,76000.0,

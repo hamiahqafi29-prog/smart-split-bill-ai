@@ -6,11 +6,9 @@ orang.
 
 **Created by: Hami Ahqafi**
 
-> Status eksperimen: aplikasi dan pipeline benchmark sudah tersedia. Dua foto
-> nota milik pengguna belum dimasukkan ke repository, sehingga tabel hasil
-> eksperimen di bawah harus diisi setelah menjalankan benchmark pada kedua
-> gambar tersebut. Hasil tidak dibuat-buat agar evaluasi tetap dapat
-> direproduksi.
+Eksperimen dilakukan pada dua foto nota nyata dengan dua vision-language model.
+Raw output, waktu inference, dan tabel ringkasan disimpan pada
+[`docs/results`](docs/results).
 
 ## Daftar Isi
 
@@ -52,6 +50,8 @@ Smart Split Bill dikembangkan sebagai proof of concept untuk membantu pengguna:
   - pajak, service charge, diskon, dan biaya tambahan;
   - total bill.
 - Hasil ekstraksi dapat diedit untuk mengatasi kesalahan AI.
+- Peringatan otomatis jika jumlah item, subtotal, charges, dan total bill tidak
+  konsisten secara aritmetika.
 - Input beberapa peserta.
 - Satu item dapat dipilih oleh satu atau beberapa peserta.
 - Biaya tambahan dibagi proporsional berdasarkan nilai item yang dikonsumsi.
@@ -217,57 +217,98 @@ repository sebagai bukti eksperimen.
 
 ## Contoh Hasil Pembacaan
 
-Bagian ini sengaja belum diisi dengan angka karena foto nota aktual belum
-tersedia di repository. Setelah benchmark dijalankan, salin ringkasan hasil
-aktual dari `docs/results/benchmark_results.json`.
+Ground truth dibuat dengan membaca nota secara manual, kemudian dibandingkan
+dengan output model. Detail ground truth tersedia di
+[`ground_truth.json`](docs/results/ground_truth.json), sedangkan output lengkap
+model tersedia di
+[`benchmark_results.json`](docs/results/benchmark_results.json).
 
 ### Nota 1
 
 ![Nota 1](docs/receipts/receipt_1.jpg)
 
+Nota Tom Sushi memiliki sembilan baris transaksi dengan total quantity 23.
+
 | Field | Ground truth | Qwen3-VL-8B | Aya Vision 32B |
 |---|---:|---:|---:|
-| Jumlah item | Belum diisi | Belum diuji | Belum diuji |
-| Item terbaca benar | Belum diisi | Belum diuji | Belum diuji |
-| Subtotal | Belum diisi | Belum diuji | Belum diuji |
-| Biaya tambahan | Belum diisi | Belum diuji | Belum diuji |
-| Total | Belum diisi | Belum diuji | Belum diuji |
-| Waktu inference | - | Belum diuji | Belum diuji |
+| Baris item | 9 | 9 | 10 |
+| Baris item tepat | 9 | 8 | 6 |
+| Subtotal | Rp369.000 | Rp369.000 | Rp1.845.000 |
+| Service charge | Rp18.450 | Rp18.450 | Rp92.250 |
+| Pajak | Rp38.745 | Rp38.745 | Rp184.500 |
+| Total | Rp426.195 | Rp426.195 | Rp2.121.750 |
+| Waktu inference | - | 12,380 detik | 17,506 detik |
 
-Temuan kualitatif: **isi setelah eksperimen**.
+Temuan kualitatif:
+
+- Qwen menemukan semua baris, merchant, subtotal, biaya tambahan, dan total.
+- Qwen salah menafsirkan satu baris `Cold Ocha`: harga total Rp6.000 dianggap
+  sebagai harga satuan sehingga total item menjadi Rp12.000.
+- Nama `Chx Karaage Mentai Rice` terbaca sebagai `Chx Karage Mental Rice`.
+- Aya mengalami *column shifting* mulai bagian bawah daftar. Nilai Blue, Black,
+  dan subtotal berpindah menjadi harga satuan/total item, sehingga hasil
+  aritmetika akhirnya jauh dari nota.
 
 ### Nota 2
 
 ![Nota 2](docs/receipts/receipt_2.jpg)
 
+Nota Santuy Mart memiliki tujuh jenis item. Foto berisi anotasi putih
+`3 pcs x 8000`, `24000`, `76000`, dan `100000`. Nilai Rp100.000 adalah uang
+yang dibayarkan, bukan total transaksi.
+
 | Field | Ground truth | Qwen3-VL-8B | Aya Vision 32B |
 |---|---:|---:|---:|
-| Jumlah item | Belum diisi | Belum diuji | Belum diuji |
-| Item terbaca benar | Belum diisi | Belum diuji | Belum diuji |
-| Subtotal | Belum diisi | Belum diuji | Belum diuji |
-| Biaya tambahan | Belum diisi | Belum diuji | Belum diuji |
-| Total | Belum diisi | Belum diuji | Belum diuji |
-| Waktu inference | - | Belum diuji | Belum diuji |
+| Baris item | 7 | 7 | 6 |
+| Baris item tepat | 7 | 7 | 5 |
+| Subtotal | Rp76.000 | Rp76.000 | Rp76.000 |
+| Biaya tambahan | Rp0 | Rp0 | Rp0 |
+| Total bill | Rp76.000 | Rp100.000 | Rp76.000 |
+| Waktu inference | - | 10,971 detik | 11,045 detik |
 
-Temuan kualitatif: **isi setelah eksperimen**.
+Temuan kualitatif:
+
+- Qwen menemukan seluruh tujuh item beserta quantity dan harga dengan tepat.
+- Qwen menganggap angka anotasi `100000`/paid amount sebagai total bill,
+  walaupun subtotal item sudah benar Rp76.000.
+- Aya menghasilkan subtotal dan total yang benar, tetapi menggabungkan
+  `Kaki Tiga Kaleng Jeruk` dan `Larutan Cap Kaki Tiga Strawberry`. Akibatnya
+  hanya enam baris yang dikembalikan.
+- Anotasi pada gambar terbukti dapat membantu membaca bagian tertutup, tetapi
+  juga berpotensi mengubah interpretasi model.
+
+### Ringkasan komparasi
+
+| Model | Rata-rata inference | Kelengkapan item | Akurasi summary bill |
+|---|---:|---|---|
+| Qwen3-VL-8B | 11,68 detik | 15/16 baris tepat | 1 nota sepenuhnya tepat; 1 salah total |
+| Aya Vision 32B | 14,28 detik | 11/16 baris tepat | 1 nota tepat; 1 gagal berat |
+
+Qwen sekitar **18,2% lebih cepat** dalam eksperimen ini. Angka tersebut adalah
+latency end-to-end melalui Hugging Face Inference Providers, sehingga turut
+dipengaruhi jaringan, antrean provider, dan cold start.
 
 ## Alasan Pemilihan Model
 
-Model default prototype adalah `Qwen/Qwen3-VL-8B-Instruct:fastest`.
+Model yang dipilih untuk prototype adalah
+`Qwen/Qwen3-VL-8B-Instruct:fastest`.
 
-Pemilihan awal ini didasarkan pada:
+Pemilihan ini didasarkan pada hasil eksperimen:
 
 1. Mendukung input gambar tanpa pipeline OCR eksternal.
 2. Mampu mengikuti prompt dan menghasilkan struktur JSON yang dibutuhkan UI.
-3. Ukuran 8B lebih efisien dibanding model pembanding 32B.
-4. Fleksibel terhadap variasi layout nota dan bahasa.
-5. Dapat digunakan melalui Hugging Face Inference Providers sehingga deployment
+3. Menghasilkan 15 dari 16 baris item dengan benar, dibanding Aya 11 dari 16.
+4. Membaca nota Tom Sushi yang lebih padat secara jauh lebih stabil.
+5. Rata-rata inference 11,68 detik, sekitar 18,2% lebih cepat dari Aya.
+6. Ukuran 8B lebih efisien dibanding model pembanding 32B.
+7. Dapat digunakan melalui Hugging Face Inference Providers sehingga deployment
    Streamlit tidak perlu memuat model besar di RAM lokal.
 
-Keputusan final harus dikonfirmasi menggunakan hasil dua nota. Jika Aya Vision
-memberikan akurasi yang jauh lebih baik dengan tambahan latency yang masih
-dapat diterima, model prototype dapat diganti melalui field **Model vision**
-tanpa mengubah algoritma split bill.
+Kelemahan Qwen pada total nota kedua ditangani pada produk dengan menyediakan
+editor hasil ekstraksi dan peringatan otomatis jika jumlah item, subtotal,
+charges, dan total bill tidak konsisten. Prompt juga membedakan `TOTAL` dari
+`CASH/PAID AMOUNT`, meskipun eksperimen menunjukkan prompt saja belum selalu
+cukup untuk gambar yang memiliki anotasi besar.
 
 ## Evaluasi Model Pembaca Bill
 
@@ -283,18 +324,23 @@ tanpa mengubah algoritma split bill.
 - Model dapat salah membaca font kecil, nota buram, singkatan, atau kolom yang
   berhimpitan.
 - Model dapat menukar harga satuan dengan total item.
+- Qwen salah membedakan total bill dengan paid amount pada nota kedua.
+- Aya mengalami column shifting pada nota pertama dan menggabungkan dua produk
+  pada nota kedua.
 - Output JSON dari model generatif tidak selalu konsisten.
 - Latency dan ketersediaan bergantung pada provider eksternal.
 - Model general-purpose tidak secara khusus dilatih untuk semua format receipt
   Indonesia.
 - Evaluasi dua gambar masih terlalu kecil untuk menyimpulkan performa umum.
+- Hasil antar-run dapat berubah meskipun temperature dibuat nol karena routing
+  provider dan implementasi model tidak selalu deterministik.
 
 ### Ide perbaikan
 
 - Tambahkan preprocessing: auto-rotate, crop, perspective correction, contrast,
   dan resize.
-- Validasi aritmetika otomatis untuk mendeteksi harga atau subtotal yang tidak
-  konsisten.
+- Jika `total != subtotal + charges`, tampilkan peringatan dan minta model
+  melakukan ekstraksi ulang khusus pada bagian total.
 - Gunakan constrained/structured generation jika provider mendukung JSON
   schema.
 - Fine-tune Donut atau model document understanding pada nota Indonesia.
@@ -365,4 +411,3 @@ Test saat ini mencakup:
 
 Project ini dibuat sebagai proof of concept assignment. Periksa lisensi dan
 ketentuan penggunaan setiap model sebelum penggunaan produksi.
-

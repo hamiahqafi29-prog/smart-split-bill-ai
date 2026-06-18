@@ -1,0 +1,272 @@
+[
+  {
+    "image": "docs/receipts/receipt_1.jpg",
+    "model": "Qwen/Qwen3-VL-8B-Instruct:fastest",
+    "status": "success",
+    "inference_seconds": 12.38,
+    "error": "",
+    "receipt": {
+      "merchant": "TOM SUSHI",
+      "items": [
+        {
+          "name": "Shoyu Ramen",
+          "quantity": 1.0,
+          "unit_price": 20000.0,
+          "total": 20000.0
+        },
+        {
+          "name": "Cold Ocha",
+          "quantity": 2.0,
+          "unit_price": 6000.0,
+          "total": 12000.0
+        },
+        {
+          "name": "Chx Karage Mental Rice",
+          "quantity": 1.0,
+          "unit_price": 25000.0,
+          "total": 25000.0
+        },
+        {
+          "name": "Shoyu Ramen",
+          "quantity": 1.0,
+          "unit_price": 20000.0,
+          "total": 20000.0
+        },
+        {
+          "name": "Cold Ocha",
+          "quantity": 1.0,
+          "unit_price": 3000.0,
+          "total": 3000.0
+        },
+        {
+          "name": "Yellow",
+          "quantity": 1.0,
+          "unit_price": 10000.0,
+          "total": 10000.0
+        },
+        {
+          "name": "Red",
+          "quantity": 10.0,
+          "unit_price": 15000.0,
+          "total": 150000.0
+        },
+        {
+          "name": "Blue",
+          "quantity": 3.0,
+          "unit_price": 20000.0,
+          "total": 60000.0
+        },
+        {
+          "name": "Black",
+          "quantity": 3.0,
+          "unit_price": 25000.0,
+          "total": 75000.0
+        }
+      ],
+      "subtotal": 369000.0,
+      "charges": [
+        {
+          "name": "Service Charge",
+          "amount": 18450.0
+        },
+        {
+          "name": "Tax",
+          "amount": 38745.0
+        }
+      ],
+      "total": 426195.0
+    }
+  },
+  {
+    "image": "docs/receipts/receipt_1.jpg",
+    "model": "CohereLabs/aya-vision-32b:fastest",
+    "status": "success",
+    "inference_seconds": 17.506,
+    "error": "",
+    "receipt": {
+      "merchant": "TOM SUSHI",
+      "items": [
+        {
+          "name": "Shoyu Ramen",
+          "quantity": 1.0,
+          "unit_price": 20000.0,
+          "total": 20000.0
+        },
+        {
+          "name": "Cold Ocha",
+          "quantity": 2.0,
+          "unit_price": 6000.0,
+          "total": 12000.0
+        },
+        {
+          "name": "Chx Karage Mental Rice",
+          "quantity": 1.0,
+          "unit_price": 25000.0,
+          "total": 25000.0
+        },
+        {
+          "name": "Shoyu Ramen",
+          "quantity": 1.0,
+          "unit_price": 20000.0,
+          "total": 20000.0
+        },
+        {
+          "name": "Cold Ocha",
+          "quantity": 1.0,
+          "unit_price": 3000.0,
+          "total": 3000.0
+        },
+        {
+          "name": "Yellow",
+          "quantity": 1.0,
+          "unit_price": 10000.0,
+          "total": 10000.0
+        },
+        {
+          "name": "Red",
+          "quantity": 10.0,
+          "unit_price": 15000.0,
+          "total": 150000.0
+        },
+        {
+          "name": "Red",
+          "quantity": 3.0,
+          "unit_price": 60000.0,
+          "total": 180000.0
+        },
+        {
+          "name": "Blue",
+          "quantity": 3.0,
+          "unit_price": 75000.0,
+          "total": 225000.0
+        },
+        {
+          "name": "Black",
+          "quantity": 3.0,
+          "unit_price": 369000.0,
+          "total": 1107000.0
+        }
+      ],
+      "subtotal": 1845000.0,
+      "charges": [
+        {
+          "name": "Service Charge",
+          "amount": 92250.0
+        },
+        {
+          "name": "Tax",
+          "amount": 184500.0
+        }
+      ],
+      "total": 2121750.0
+    }
+  },
+  {
+    "image": "docs/receipts/receipt_2.jpg",
+    "model": "Qwen/Qwen3-VL-8B-Instruct:fastest",
+    "status": "success",
+    "inference_seconds": 10.971,
+    "error": "",
+    "receipt": {
+      "merchant": "SANTUY MART",
+      "items": [
+        {
+          "name": "ADEM SARI herbal lemon",
+          "quantity": 1.0,
+          "unit_price": 10000.0,
+          "total": 10000.0
+        },
+        {
+          "name": "GIV STROWBERY",
+          "quantity": 1.0,
+          "unit_price": 5000.0,
+          "total": 5000.0
+        },
+        {
+          "name": "KAKI TIGA KALENG JERUK 320ML",
+          "quantity": 1.0,
+          "unit_price": 8000.0,
+          "total": 8000.0
+        },
+        {
+          "name": "Larutan Cap Kaki Tiga strawberry",
+          "quantity": 3.0,
+          "unit_price": 8000.0,
+          "total": 24000.0
+        },
+        {
+          "name": "RITZ CRACKERS 91g",
+          "quantity": 1.0,
+          "unit_price": 11000.0,
+          "total": 11000.0
+        },
+        {
+          "name": "Tolak angin anak",
+          "quantity": 2.0,
+          "unit_price": 4000.0,
+          "total": 8000.0
+        },
+        {
+          "name": "TWISTER MNS black 70 g",
+          "quantity": 1.0,
+          "unit_price": 10000.0,
+          "total": 10000.0
+        }
+      ],
+      "subtotal": 76000.0,
+      "charges": [],
+      "total": 100000.0
+    }
+  },
+  {
+    "image": "docs/receipts/receipt_2.jpg",
+    "model": "CohereLabs/aya-vision-32b:fastest",
+    "status": "success",
+    "inference_seconds": 11.045,
+    "error": "",
+    "receipt": {
+      "merchant": "SANTYU MART",
+      "items": [
+        {
+          "name": "ADEM SARI herbal lemon",
+          "quantity": 1.0,
+          "unit_price": 10000.0,
+          "total": 10000.0
+        },
+        {
+          "name": "GIV STRAWBERRY",
+          "quantity": 1.0,
+          "unit_price": 5000.0,
+          "total": 5000.0
+        },
+        {
+          "name": "KAKI TIGA KALENG JERUK 320ML",
+          "quantity": 3.0,
+          "unit_price": 8000.0,
+          "total": 24000.0
+        },
+        {
+          "name": "RITZ CRACKERS 91g",
+          "quantity": 1.0,
+          "unit_price": 11000.0,
+          "total": 11000.0
+        },
+        {
+          "name": "TOLOK ANGIN ANAK",
+          "quantity": 2.0,
+          "unit_price": 4000.0,
+          "total": 8000.0
+        },
+        {
+          "name": "TWISTER MNS BLACK 70g",
+          "quantity": 1.0,
+          "unit_price": 10000.0,
+          "total": 10000.0
+        }
+      ],
+      "subtotal": 76000.0,
+      "charges": [],
+      "total": 76000.0
+    }
+  }
+]

@@ -39,6 +39,11 @@ Aturan:
 - quantity adalah angka dan boleh desimal.
 - Pastikan quantity × unit_price masuk akal terhadap total item.
 - Jika subtotal tercetak, gunakan nilai yang tercetak.
+- Total bill adalah nilai berlabel TOTAL, GRAND TOTAL, atau TOTAL BILL.
+- Jangan gunakan CASH, TUNAI, PAID AMOUNT, TENDERED, jumlah uang diterima,
+  atau uang kembalian sebagai total bill.
+- Periksa konsistensi: total bill seharusnya sama dengan subtotal ditambah
+  charges (termasuk diskon negatif), selain jika nota memperlihatkan rounding.
 - Jika suatu field tidak terbaca, gunakan 0 atau string kosong.
 """
 

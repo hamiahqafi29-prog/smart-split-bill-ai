@@ -1,0 +1,5 @@
+image,model,ground_truth_rows,predicted_rows,correct_item_rows,subtotal_correct,charges_correct,total_correct,inference_seconds,main_error
+receipt_1.jpg,Qwen3-VL-8B,9,9,8,yes,yes,yes,12.380,Cold Ocha quantity 2 treated Rp6000 as unit price
+receipt_1.jpg,Aya Vision 32B,9,10,6,no,no,no,17.506,Column shifting caused prices and subtotal to become item values
+receipt_2.jpg,Qwen3-VL-8B,7,7,7,yes,yes,no,10.971,Paid amount Rp100000 interpreted as total bill
+receipt_2.jpg,Aya Vision 32B,7,6,5,yes,yes,yes,11.045,Two Kaki Tiga products merged into one row

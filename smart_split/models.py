@@ -63,3 +63,25 @@ def normalize_receipt(data: dict) -> dict:
         )
     return result
 
+
+def validate_receipt(receipt: dict) -> list[str]:
+    warnings = []
+    item_sum = _money(sum(item.get("total", 0) for item in receipt.get("items", [])))
+    subtotal = _money(receipt.get("subtotal"))
+    charge_sum = _money(
+        sum(charge.get("amount", 0) for charge in receipt.get("charges", []))
+    )
+    total = _money(receipt.get("total"))
+
+    if item_sum != subtotal:
+        warnings.append(
+            f"Jumlah total item ({item_sum:.2f}) tidak sama dengan subtotal "
+            f"({subtotal:.2f})."
+        )
+    expected_total = _money(subtotal + charge_sum)
+    if expected_total != total:
+        warnings.append(
+            f"Subtotal + biaya tambahan ({expected_total:.2f}) tidak sama "
+            f"dengan total bill ({total:.2f})."
+        )
+    return warnings

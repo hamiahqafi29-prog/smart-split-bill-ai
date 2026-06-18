@@ -7,7 +7,7 @@ import streamlit as st
 from dotenv import load_dotenv
 
 from smart_split.ai import ExtractionError, extract_receipt
-from smart_split.models import empty_receipt, normalize_receipt
+from smart_split.models import empty_receipt, normalize_receipt, validate_receipt
 from smart_split.splitter import calculate_split, format_idr
 
 
@@ -276,6 +276,12 @@ with right:
 
 sync_receipt(edited_items, edited_charges, subtotal, total)
 receipt = st.session_state.receipt
+
+for validation_warning in validate_receipt(receipt):
+    st.warning(
+        "⚠️ " + validation_warning + " Periksa kembali hasil pembacaan AI.",
+        icon=None,
+    )
 
 st.divider()
 st.subheader("3. Tambahkan orang dan pilih item")
