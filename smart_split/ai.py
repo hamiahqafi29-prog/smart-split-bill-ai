@@ -9,6 +9,9 @@ class ExtractionError(RuntimeError):
     pass
 
 
+HF_DEFAULT_MODEL = "Qwen/Qwen3-VL-30B-A3B-Instruct:fastest"
+
+
 SYSTEM_PROMPT = """
 Anda adalah mesin ekstraksi data nota Indonesia. Baca gambar dengan teliti dan
 kembalikan hanya JSON valid, tanpa markdown. Jangan mengarang nilai yang tidak
@@ -176,6 +179,16 @@ def extract_receipt(
                 raise ExtractionError(
                     "HF_TOKEN tidak memiliki izin Inference Providers. Buat fine-grained "
                     "token dan aktifkan 'Make calls to Inference Providers'."
+                ) from exc
+            if "402" in message or "no remaining credits" in message.lower():
+                raise ExtractionError(
+                    "Kredit Hugging Face Inference Providers habis. Tambahkan prepaid "
+                    "credits/berlangganan PRO, atau pilih OpenAI maupun mode demo."
+                ) from exc
+            if "model_not_supported" in message or "not supported by any provider" in message:
+                raise ExtractionError(
+                    f"Model '{model}' saat ini tidak dilayani oleh Inference Providers. "
+                    f"Gunakan '{HF_DEFAULT_MODEL}' pada kolom Model vision, lalu coba lagi."
                 ) from exc
             raise ExtractionError(f"Gagal memanggil Hugging Face: {exc}") from exc
 

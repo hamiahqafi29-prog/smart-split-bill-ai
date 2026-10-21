@@ -141,6 +141,32 @@ streamlit run app.py
 
 Buka `http://localhost:8501`.
 
+## Deploy publik dengan Streamlit Community Cloud
+
+Repository ini siap dideploy sebagai aplikasi portfolio di Streamlit Community
+Cloud.
+
+1. Pastikan perubahan sudah di-push ke branch `main` pada GitHub.
+2. Buka [share.streamlit.io](https://share.streamlit.io), masuk dengan akun
+   GitHub, lalu pilih **Create app**.
+3. Pilih repository `hamiahqafi29-prog/smart-split-bill-ai`, branch `main`, dan
+   entrypoint `app.py`.
+4. Pada **Advanced settings** gunakan Python 3.12 dan isi bagian **Secrets**
+   dengan provider yang akan digunakan, misalnya:
+
+   ```toml
+   OPENAI_API_KEY = "sk-..."
+   OPENAI_MODEL = "gpt-4.1-mini"
+   ```
+
+   Atau gunakan `HF_TOKEN`/`GROQ_API_KEY` jika provider tersebut memiliki
+   kredit aktif. Jangan memasukkan key ke GitHub atau file `.env` yang di-push.
+5. Klik **Deploy**, lalu pilih URL yang rapi, misalnya
+   `smart-split-bill-ai.streamlit.app`.
+
+Untuk demo portofolio tanpa biaya API, recruiter tetap dapat memakai tombol
+**Muat contoh transaksi** dan mencoba seluruh alur pembagian tagihan.
+
 ## Riset dan Perbandingan Model
 
 Assignment mensyaratkan minimal dua model OCR-free. Model yang dibandingkan:

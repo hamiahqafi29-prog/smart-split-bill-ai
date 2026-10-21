@@ -6,7 +6,7 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 
-from smart_split.ai import ExtractionError, extract_receipt
+from smart_split.ai import HF_DEFAULT_MODEL, ExtractionError, extract_receipt
 from smart_split.models import empty_receipt, normalize_receipt, validate_receipt
 from smart_split.splitter import calculate_split, format_idr
 
@@ -131,7 +131,7 @@ with st.sidebar:
         ),
     )
     default_models = {
-        "Hugging Face": "Qwen/Qwen3-VL-8B-Instruct:fastest",
+        "Hugging Face": HF_DEFAULT_MODEL,
         "Groq Vision": "meta-llama/llama-4-scout-17b-16e-instruct",
         "OpenAI": os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
         "Demo / input manual": "",
@@ -140,7 +140,7 @@ with st.sidebar:
         "Model vision",
         value=default_models[provider],
         disabled=provider == "Demo / input manual",
-        key=f"model_{provider}",
+        key=f"model_{provider}_v2",
     )
 
     if uploaded_file:
