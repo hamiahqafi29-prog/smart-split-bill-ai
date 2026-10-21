@@ -124,16 +124,14 @@ with st.sidebar:
 
     provider = st.selectbox(
         "AI provider",
-        ["Hugging Face", "Groq Vision", "OpenAI", "Demo / input manual"],
+        ["Groq Vision", "Demo / input manual"],
         help=(
-            "Hugging Face membutuhkan HF_TOKEN dengan izin Inference Providers. "
-            "Groq membutuhkan GROQ_API_KEY. OpenAI membutuhkan quota API aktif."
+            "Groq membutuhkan GROQ_API_KEY."
+            "Demo / input manual digunakan untuk memasukkan data secara manual."
         ),
     )
     default_models = {
-        "Hugging Face": HF_DEFAULT_MODEL,
         "Groq Vision": "qwen/qwen3.8-27b",
-        "OpenAI": os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
         "Demo / input manual": "",
     }
     model = st.text_input(
@@ -160,9 +158,7 @@ with st.sidebar:
                     uploaded_file.getvalue(),
                     uploaded_file.type,
                     provider={
-                        "Hugging Face": "huggingface",
                         "Groq Vision": "groq",
-                        "OpenAI": "openai",
                     }[provider],
                     model=model,
                 )
