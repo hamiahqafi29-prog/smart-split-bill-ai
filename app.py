@@ -132,7 +132,7 @@ with st.sidebar:
     )
     default_models = {
         "Hugging Face": HF_DEFAULT_MODEL,
-        "Groq Vision": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "Groq Vision": "qwen/qwen3.6-27b",
         "OpenAI": os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
         "Demo / input manual": "",
     }
